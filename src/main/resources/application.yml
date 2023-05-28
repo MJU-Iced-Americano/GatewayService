@@ -17,3 +17,23 @@ spring:
           uri: lb://COMPANY-SERVICE
           predicates:
             - Path=/company-service/**
+
+        - id: review-service
+          uri: lb://REVIEW-SERVICE
+          predicates:
+            - Path=/review-service/**
+
+        - id: complaint-service
+          uri: lb://COMPLAINT-SERVICE
+          predicates:
+            - Path=/complaint-service/**
+
+        - id: board-service
+          uri: lb://BOARD-SERVICE
+          predicates:
+            - Path=/board-service/**
+
+        - id: mypage-service
+          uri: lb://MYPAGE-SERVICE
+          predicates:
+            - Path=/mypage-service/**
