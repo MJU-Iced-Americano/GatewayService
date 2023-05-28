@@ -2,6 +2,9 @@ server:
   port: 8000
 
 eureka:
+  instance:
+    prefer-ip-address: true
+    ip-address: 43.200.124.135
   client:
     register-with-eureka: true
     fetch-registry: true
