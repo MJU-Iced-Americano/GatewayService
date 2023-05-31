@@ -15,7 +15,24 @@ spring:
     name: gateway-service
   cloud:
     gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: 'http://socoa.online'
+            allow-credentials: true
+            allowedHeaders: '*'
+            allowedMethods:
+              - PUT
+              - GET
+              - POST
+              - DELETE
+              - OPTIONS
       routes:
+        - id: sso-service
+          uri: http://localhost:8000
+          predicates:
+            - Path=/user-service/**
+
         - id: company-service
           uri: lb://COMPANY-SERVICE
           predicates:
