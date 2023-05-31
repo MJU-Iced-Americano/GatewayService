@@ -3,8 +3,8 @@ server:
 
 eureka:
   instance:
-    prefer-ip-address: true
-    ip-address: 43.200.124.135
+    hostname: gateway.socoa.online
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
   client:
     register-with-eureka: true
     fetch-registry: true
