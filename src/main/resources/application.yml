@@ -18,9 +18,7 @@ spring:
       globalcors:
         cors-configurations:
           '[/**]':
-            allowedOrigins: 
-              - 'http://socoa.online'
-              - 'http://localhost:3000'
+            allowedOrigins: 'http://socoa.online'
             allow-credentials: true
             allowedHeaders: '*'
             allowedMethods:
