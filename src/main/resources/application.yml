@@ -38,6 +38,11 @@ spring:
           predicates:
             - Path=/company-service/**
 
+        - id: course-service
+          uri: lb://COURSE-SERVICE
+          predicates:
+            - Path=/course-service/**
+            
         - id: review-service
           uri: lb://REVIEW-SERVICE
           predicates:
