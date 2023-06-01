@@ -20,9 +20,9 @@ spring:
       globalcors:
         corsConfigurations:
           '[/**]':
-              allowedOrigins: "*"
-              allowedMethods: "*"
-              allowedHeaders: "*"
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
       routes:
         - id: sso-service
           uri: http://localhost:8000
@@ -38,7 +38,7 @@ spring:
           uri: lb://COURSE-SERVICE
           predicates:
             - Path=/course-service/**
-            
+
         - id: review-service
           uri: lb://REVIEW-SERVICE
           predicates:
