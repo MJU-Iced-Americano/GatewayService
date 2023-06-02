@@ -3,6 +3,7 @@ package com.mju.gateway.presentation;
 import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -20,8 +21,11 @@ import reactor.core.publisher.Mono;
 public class CustomGlobalFilter implements GlobalFilter, Ordered {
     private static final String SOCOA_SSO_TOKEN = "SOCOA-SSO-TOKEN";
     private static final String FIRST_LOGIN_PATH = "/user-service/login";
-    private static final String LOGIN_URI = "http://login.socoa.online/user/login";
-    private static final String SOCOA_HOME_URI = "http://socoa.online";
+
+    @Value("${socoa.login.uri}")
+    private String LOGIN_URI;
+    @Value("${socoa.home.uri}")
+    private String SOCOA_HOME_URI;
 
     @Override
     public Mono<Void> filter(final ServerWebExchange exchange, final GatewayFilterChain chain) {

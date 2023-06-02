@@ -1,0 +1,5 @@
+socoa:
+  login:
+    uri: http://login.socoa.online/user/login
+  home:
+    uri: http://socoa.online
