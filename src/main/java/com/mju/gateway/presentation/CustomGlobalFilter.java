@@ -22,6 +22,7 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
     private static final String SOCOA_SSO_TOKEN = "SOCOA-SSO-TOKEN";
     private static final String FIRST_LOGIN_PATH = "/user-service/login";
 
+    //test
     @Value("${socoa.login.uri}")
     private String LOGIN_URI;
     @Value("${socoa.home.uri}")
