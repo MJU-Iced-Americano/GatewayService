@@ -1,17 +1,17 @@
 package com.mju.gateway.presentation;
 
 import java.net.URI;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
-import org.springframework.http.HttpCookie;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
@@ -31,15 +31,15 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
     @Override
     public Mono<Void> filter(final ServerWebExchange exchange, final GatewayFilterChain chain) {
         try {
-            log.info("global filter = {}", exchange.getRequest().getURI());
-            MultiValueMap<String, HttpCookie> cookies = exchange.getRequest().getCookies();
+            List<String> tokens = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION);
 
-            if (isUnAuthenticationRequest(cookies)) {
+            if (tokens == null || tokens.isEmpty()) {
+                log.warn("unAuthentication Request : {}", exchange.getRequest().getURI());
                 return unAuthenticationRequest(exchange);
             }
 
             if (isFirstLogin(exchange)) {
-                log.info("first login = {} token = {}", exchange.getRequest().getURI(), cookies.get(SOCOA_SSO_TOKEN));
+                log.info("first login = {} token = {}", exchange.getRequest().getURI(), tokens.get(0));
                 return firstLoginRequest(exchange);
             }
 
@@ -51,11 +51,7 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
         }
     }
 
-    private static boolean isUnAuthenticationRequest(final MultiValueMap<String, HttpCookie> cookies) {
-        return cookies.containsKey(SOCOA_SSO_TOKEN) == false;
-    }
-
-    private static boolean isFirstLogin(final ServerWebExchange exchange) {
+    private boolean isFirstLogin(final ServerWebExchange exchange) {
         return exchange.getRequest().getURI().getPath().equals(FIRST_LOGIN_PATH);
     }
 
