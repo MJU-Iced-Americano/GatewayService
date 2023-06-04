@@ -2,12 +2,14 @@ package com.mju.gateway.presentation;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Map.Entry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
+import org.springframework.http.HttpCookie;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -32,7 +34,15 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
 
     @Override
     public Mono<Void> filter(final ServerWebExchange exchange, final GatewayFilterChain chain) {
-        return chain.filter(exchange);
+        if (exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION) ||
+                exchange.getRequest().getCookies().containsKey(SOCOA_SSO_TOKEN)) {
+            if (isFirstLogin(exchange)) {
+                return firstLoginRequest(exchange);
+            }
+            return chain.filter(exchange);
+        }
+
+        return unAuthenticationRequest(exchange);
     }
 
     private boolean isFirstLogin(final ServerWebExchange exchange) {
