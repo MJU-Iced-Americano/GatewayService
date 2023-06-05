@@ -45,11 +45,7 @@ spring:
         - id: course-service
           uri: lb://COURSE-SERVICE
           predicates:
-            - Path=/course-service/**
-            - Path=/mypage/**
-            - Path=/lecture-service/**
-            - Path=/admin-service/**
-            - Path=/client/**
+            - Path=/course-service/**, /mypage/**, /lecture-service/**, /admin-service/**, /client/**
 
         - id: review-service
           uri: lb://REVIEW-SERVICE
