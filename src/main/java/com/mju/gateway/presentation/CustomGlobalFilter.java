@@ -34,6 +34,7 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
 
     @Override
     public Mono<Void> filter(final ServerWebExchange exchange, final GatewayFilterChain chain) {
+        log.info("{}", exchange.getRequest().getURI());
         if (exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION) ||
                 exchange.getRequest().getCookies().containsKey(SOCOA_SSO_TOKEN)) {
             if (isFirstLogin(exchange)) {
